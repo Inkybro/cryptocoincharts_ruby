@@ -57,7 +57,6 @@ module CryptoCoinCharts
     
     def coin_info(pair)
       raise ArgumentError, "You must supply a valid coin pair!" if !VALID_PAIRS.include?(pair.to_sym)
-      #Hashie::Mash.new(JSON.parse(Mechanize.new.get("#{API_URL}/tradingPair/#{pair.to_s}").body))
       coins_info(pair)[0]
     end
     
