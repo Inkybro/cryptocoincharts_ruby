@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name        = 'cryptocoincharts_ruby'
-  s.version     = CryptoCoinCharts::VERSION
+  s.version     = '0.0.1' #::CryptoCoinCharts::VERSION
   s.date        = '2014-03-22'
   s.summary     = "A gem providing a wrapper around the Cryptocoincharts.info API."
   s.description = "Provides a wrapper for Cryptocoincharts.info API."
@@ -9,6 +9,6 @@ Gem::Specification.new do |s|
   s.files       = [
                     "lib/cryptocoincharts_ruby.rb"
                   ]
-  s.homepage    = 'http://rubygems.org/gems/cryptocoincharts_ruby'
+  s.homepage    = 'http://github.com/Inkybro/cryptocoincharts_ruby'
   s.license     = 'MIT'
 end
