@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name        = 'cryptocoincharts_ruby'
-  s.version     = '0.0.1' #::CryptoCoinCharts::VERSION
+  s.version     = '0.0.10' #::CryptoCoinCharts::VERSION
   s.date        = '2014-03-22'
   s.summary     = "A gem providing a wrapper around the Cryptocoincharts.info API."
   s.description = "Provides a wrapper for Cryptocoincharts.info API."
