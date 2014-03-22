@@ -9,7 +9,7 @@ module CryptoCoinCharts
     
     API_URL = 'http://www.cryptocoincharts.info/v2/api'
     VALID_PAIRS = [
-      :"42_btc", :"888_btc", :aaa_btc, :adt_btc, :air_btc, :alb_btc, :alf_btc, :alp_btc, 
+      :"42_btc", :"365_btc", :"888_btc", :aaa_btc, :adt_btc, :air_btc, :alb_btc, :alf_btc, :alp_btc, 
       :amc_btc, :anc_btc, :ant_btc, :aph_btc, :app_btc, :arg_btc, :asc_btc, :asr_btc, :atp_btc, :aur_btc, 
       :bat_btc, :bc_btc, :bcx_btc, :bea_btc, :bec_btc, :bela_btc, :beli_btc, :ben_btc, :bet_btc, :bfc_btc, 
       :bil_btc, :blc_btc, :blk_btc, :boc_btc, :bqc_btc, :btb_btc, :btc_btc, :btcs_btc, :bte_btc, :btg_btc, 
@@ -19,7 +19,7 @@ module CryptoCoinCharts
       :dgc_btc, :diem_btc, :dime_btc, :dmd_btc, :doge_btc, :drk_btc, :dsc_btc, :dtc_btc, :duck_btc, :dvc_btc, 
       :eac_btc, :ebt_btc, :efl_btc, :elc_btc, :elp_btc, :emc2_btc, :emd_btc, :emo_btc, :etok_btc, :eur_btc, 
       :exc_btc, :exe_btc, :ezc_btc, :ffc_btc, :flap_btc, :flo_btc, :flt_btc, :fox_btc, :frc_btc, :fre_btc, 
-      :frk_btc, :frq_btc, :fry_btc, :fsc_btc, :fst_btc, :ftc_btc, :fz_btc, :gac_btc, :gdc_btc, :ghc_btc, 
+      :frk_btc, :frq_btc, :fry_btc, :fsc_btc, :fst_btc, :ftc_btc, :fz_btc, :gac_btc, :gdc_btc, :ghc_btc, :grce_btc,
       :gil_btc, :glb_btc, :glc_btc, :gld_btc, :glx_btc, :gme_btc, :gns_btc, :gpu_btc, :gpuc_btc, :gra_btc, 
       :grc_btc, :grump_btc, :grw_btc, :hbn_btc, :hic_btc, :hiro_btc, :hkc_btc, :hpc_btc, :huc_btc, :hvc_btc, 
       :hyc_btc, :i0c_btc, :icn_btc, :ifc_btc, :ipc_btc, :iqd_btc, :isk_btc, :ixc_btc, :jkc_btc, :karm_btc, 
@@ -42,7 +42,13 @@ module CryptoCoinCharts
     
     def list_coins
       coins = JSON.parse(Mechanize.new.get("#{API_URL}/listCoins").body)
-      coins.map {|c| Hashie::Mash.new(c) }
+      coins.map! {|c| Hashie::Mash.new(c) }
+      coins.each do |coin|
+        if !VALID_PAIRS.include?("#{coin.id}_btc".to_sym)
+          puts "WARNING: Valid coin pair #{coin.id}_btc does not appear in the list of valid pairs!"
+        end
+      end
+      coins
     end
     
     def coin_info(pair)
