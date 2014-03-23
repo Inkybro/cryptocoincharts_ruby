@@ -19,7 +19,7 @@ module CryptoCoinCharts
                     :dgc_btc, :diem_btc, :dime_btc, :dmd_btc, :doge_btc, :drk_btc, :dsc_btc, :dtc_btc, :duck_btc, :dvc_btc, 
                     :eac_btc, :ebt_btc, :ecc_btc, :efl_btc, :elc_btc, :elp_btc, :emc2_btc, :emd_btc, :emo_btc, :etok_btc, 
                     :eur_btc, :exc_btc, :exe_btc, :ezc_btc, :fail_btc, :ffc_btc, :flap_btc, :flo_btc, :flt_btc, :fox_btc, 
-                    :frc_btc, :fre_btc, :frk_btc, :frq_btc, :fry_btc, :fsc_btc, :fst_btc, :ftc_btc, :fz_btc, :gac_btc, 
+                    :frc_btc, :fre_btc, :frk_btc, :frq_btc, :frx_btc, :fry_btc, :fsc_btc, :fst_btc, :ftc_btc, :fz_btc, :gac_btc, 
                     :gdc_btc, :ger_btc, :ghc_btc, :gil_btc, :glb_btc, :glc_btc, :gld_btc, :glx_btc, :gme_btc, :gns_btc, 
                     :gpu_btc, :gpuc_btc, :gra_btc, :grc_btc, :grce_btc, :grump_btc, :grw_btc, :hbn_btc, :hic_btc, :hiro_btc, 
                     :hkc_btc, :hpc_btc, :huc_btc, :hvc_btc, :hyc_btc, :i0c_btc, :icn_btc, :ifc_btc, :ipc_btc, :iqd_btc, 
