@@ -5,7 +5,7 @@ require 'hashie'
 module CryptoCoinCharts
   class << self
     
-    VERSION = '0.0.1'
+    VERSION = '0.0.12'
     
     API_URL = 'http://www.cryptocoincharts.info/v2/api'
     VALID_PAIRS = [
