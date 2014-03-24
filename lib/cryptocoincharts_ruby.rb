@@ -6,7 +6,7 @@ require 'bigdecimal'
 module CryptoCoinCharts
   class << self
     
-    VERSION = '0.0.17'
+    VERSION = '0.0.18'
     
     API_URL = 'http://www.cryptocoincharts.info/v2/api'
     VALID_PAIRS = [
@@ -80,21 +80,21 @@ module CryptoCoinCharts
   end
   
   class CoinSummary < Hashie::Trash
-    property :id, :transform_with => lambda {|v| v.to_s.to_sym }
+    property :id, :transform_with => lambda {|v| v.to_s.to_sym rescue v }
     property :name
     property :website
-    property :price_btc, :transform_with => lambda {|v| BigDecimal.new(v.to_s) }
-    property :volume_btc, :transform_with => lambda {|v| v.to_s.to_f }
+    property :price_btc, :transform_with => lambda {|v| BigDecimal.new(v.to_s) rescue v }
+    property :volume_btc, :transform_with => lambda {|v| v.to_s.to_f  rescue v }
   end
   
   class CoinDetail < Hashie::Trash
-    property :id, :transform_with => lambda {|v| v.to_s.gsub!(/\//, '_').to_sym }
+    property :id, :transform_with => lambda {|v| v.to_s.gsub!(/\//, '_').to_sym rescue v }
     property :best_market
     property :latest_trade, :transform_with => lambda {|v| Time.parse(v.to_s) rescue v }
-    property :price, :transform_with => lambda {|v| BigDecimal.new(v.to_s) }
-    property :price_before_24h, :transform_with => lambda {|v| BigDecimal.new(v.to_s) }
-    property :volume_btc, :transform_with => lambda {|v| v.to_s.to_f }
-    property :volume_first, :transform_with => lambda {|v| v.to_s.to_f }
-    property :volume_second, :transform_with => lambda {|v| v.to_s.to_f }
+    property :price, :transform_with => lambda {|v| BigDecimal.new(v.to_s) rescue v }
+    property :price_before_24h, :transform_with => lambda {|v| BigDecimal.new(v.to_s) rescue v }
+    property :volume_btc, :transform_with => lambda {|v| v.to_s.to_f rescue v }
+    property :volume_first, :transform_with => lambda {|v| v.to_s.to_f rescue v }
+    property :volume_second, :transform_with => lambda {|v| v.to_s.to_f rescue v }
   end
 end
