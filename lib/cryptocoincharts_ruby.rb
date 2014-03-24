@@ -31,9 +31,9 @@ module CryptoCoinCharts
                     :mxb_btc, :myr_btc, :mzc_btc, :nan_btc, :nbl_btc, :nec_btc, :net_btc, :nib_btc, :nka_btc, :nmc_btc, 
                     :nobl_btc, :nok_btc, :nrb_btc, :nrs_btc, :nvc_btc, :nwc_btc, :nxt_btc, :nyan_btc, :nym_btc, :ogc_btc, 
                     :oly_btc, :orb_btc, :osc_btc, :pand_btc, :panda_btc, :pawn_btc, :pcc_btc, :peng_btc, :pho_btc, :phs_btc, 
-                    :pi_btc, :pig_btc, :plc_btc, :plnc_btc, :pmc_btc, :points_btc, :pop_btc, :pot_btc, :ppc_btc, :ppl_btc, 
+                    :pi_btc, :pig_btc, :plc_btc, :plnc_btc, :pmc_btc, :pnd_btc, :points_btc, :pop_btc, :pot_btc, :ppc_btc, :ppl_btc, 
                     :prc_btc, :prt_btc, :pt_btc, :pts_btc, :pwc_btc, :pxc_btc, :pxl_btc, :pyc_btc, :q2c_btc, :qqc_btc, :qrk_btc, 
-                    :rch_btc, :rdd_btc, :rec_btc, :red_btc, :redd_btc, :ric_btc, :rpc_btc, :rpd_btc, :rqc_btc, :rt2_btc, :ruby_btc, 
+                    :rbbt_btc, :rch_btc, :rdd_btc, :rec_btc, :red_btc, :redd_btc, :ric_btc, :rpc_btc, :rpd_btc, :rqc_btc, :rt2_btc, :ruby_btc, 
                     :rur_btc, :ryc_btc, :sat_btc, :sav_btc, :sbc_btc, :sc_btc, :skc_btc, :sll_btc, :sloth_btc, :slr_btc, :smc_btc, 
                     :soc_btc, :spa_btc, :spt_btc, :src_btc, :stc_btc, :str_btc, :sun_btc, :svc_btc, :sxc_btc, :syn_btc, :tag_btc, 
                     :tak_btc, :tea_btc, :tek_btc, :tes_btc, :tgc_btc, :tips_btc, :tix_btc, :top_btc, :trc_btc, :trl_btc, :ttc_btc, 
@@ -47,8 +47,8 @@ module CryptoCoinCharts
       coins.map! {|c| CoinSummary.new(c) rescue nil }
       coins.delete(nil)
       coins.each do |coin|
-        if !VALID_PAIRS.include?("#{coin.code}_btc".to_sym)
-          puts "WARNING: Valid coin pair #{coin.code}_btc does not appear in the list of valid pairs!"
+        if !VALID_PAIRS.include?("#{coin.id}_btc".to_sym)
+          puts "WARNING: Valid coin pair #{coin.id}_btc does not appear in the list of valid pairs!"
         end
       end
       coins
@@ -80,20 +80,20 @@ module CryptoCoinCharts
   end
   
   class CoinSummary < Hashie::Trash
-    property :code, :from => :id, :with => lambda {|v| v.to_sym }
+    property :id, :transform_with => lambda {|v| v.to_sym }
     property :name
     property :website
-    property :btc_value, :from => :price_btc, :with => lambda {|v| BigDecimal.new(v) }
-    property :btc_volume_24h, :from => :volume_btc, :with => lambda {|v| v.to_f }
+    property :price_btc, :transform_with => lambda {|v| BigDecimal.new(v) }
+    property :volume_btc, :transform_with => lambda {|v| v.to_f }
   end
   
   class CoinDetail < Hashie::Trash
-    property :code, :from => :id, :with => lambda {|v| v.gsub!(/\//, '_').to_sym }
+    property :id, :transform_with => lambda {|v| v.gsub!(/\//, '_').to_sym }
     property :best_market
     property :latest_trade, :transform_with => lambda {|v| Time.parse(v) rescue v }
-    property :btc_value, :from => :price, :with => lambda {|v| BigDecimal.new(v) }
-    property :btc_value_24h_ago, :from => :price_before_24h, :with => lambda {|v| BigDecimal.new(v) }
-    property :btc_volume, :from => :volume_btc, :with => lambda {|v| v.to_f }
+    property :price, :transform_with => lambda {|v| BigDecimal.new(v) }
+    property :price_before_24h, :transform_with => lambda {|v| BigDecimal.new(v) }
+    property :volume_btc, :transform_with => lambda {|v| v.to_f }
     property :volume_first, :transform_with => lambda {|v| v.to_f }
     property :volume_second, :transform_with => lambda {|v| v.to_f }
   end
