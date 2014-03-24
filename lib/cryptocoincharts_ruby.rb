@@ -6,7 +6,7 @@ require 'bigdecimal'
 module CryptoCoinCharts
   class << self
     
-    VERSION = '0.0.14'
+    VERSION = '0.0.15'
     
     API_URL = 'http://www.cryptocoincharts.info/v2/api'
     VALID_PAIRS = [
@@ -17,7 +17,7 @@ module CryptoCoinCharts
                     :btg_btc, :btq_btc, :btr_btc, :buk_btc, :c2_btc, :cach_btc, :cage_btc, :cap_btc, :cash_btc, :cat_btc, 
                     :cdc_btc, :cent_btc, :cga_btc, :cgb_btc, :cin_btc, :clr_btc, :cmc_btc, :cnc_btc, :cnote_btc, :cny_btc, 
                     :coin_btc, :col_btc, :con_btc, :corg_btc, :cpr_btc, :crc_btc, :csc_btc, :ctm_btc, :dbl_btc, :dem_btc, 
-                    :dgb_btc, :dgc_btc, :diem_btc, :dime_btc, :dmc_btc, :dmd_btc, :doge_btc, :drk_btc, :dsc_btc, :dtc_btc, 
+                    :dgb_btc, :dgc_btc, :diem_btc, :dime_btc, :dmc_btc, :dmd_btc, :doge_btc, :dope_btc, :drk_btc, :dsc_btc, :dtc_btc, 
                     :duck_btc, :dvc_btc, :eac_btc, :ebt_btc, :ecc_btc, :efl_btc, :elc_btc, :elp_btc, :emc2_btc, :emd_btc, 
                     :emo_btc, :etok_btc, :eur_btc, :exc_btc, :exe_btc, :ezc_btc, :fac_btc, :fail_btc, :ffc_btc, :flap_btc, 
                     :flo_btc, :flt_btc, :fox_btc, :frc_btc, :fre_btc, :frk_btc, :frq_btc, :frx_btc, :fry_btc, :fsc_btc, 
@@ -44,7 +44,8 @@ module CryptoCoinCharts
 
     def list_coins
       coins = JSON.parse(Mechanize.new.get("#{API_URL}/listCoins").body)
-      coins.map! {|c| CoinSummary.new(c) }
+      coins.map! {|c| CoinSummary.new(c) rescue nil }
+      coins.delete(nil)
       coins.each do |coin|
         if !VALID_PAIRS.include?("#{coin.code}_btc".to_sym)
           puts "WARNING: Valid coin pair #{coin.code}_btc does not appear in the list of valid pairs!"
@@ -54,8 +55,9 @@ module CryptoCoinCharts
     end
     
     def coin_info(pair)
-      raise ArgumentError, "You must supply a valid coin pair!" if !VALID_PAIRS.include?(pair.to_sym)
-      coins_info(pair)[0]
+      #raise ArgumentError, "You must supply a valid coin pair!" if !VALID_PAIRS.include?(pair.to_sym)
+      coin = coins_info(pair)
+      !coin.nil? ? coin.first : nil
     end
     
     def coins_info(*pairs)
@@ -70,7 +72,9 @@ module CryptoCoinCharts
       coins = JSON.parse(Mechanize.new.post("#{API_URL}/tradingPairs", {
         :pairs => pairs.join(',')
       }).body)
-      coins.map {|c| CoinDetail.new(c) }
+      coins.map! {|c| CoinDetail.new(c) rescue nil }
+      coins.delete(nil)
+      coins
     end
     
   end
@@ -86,7 +90,7 @@ module CryptoCoinCharts
   class CoinDetail < Hashie::Trash
     property :code, :from => :id, :with => lambda {|v| v.gsub!(/\//, '_').to_sym }
     property :best_market
-    property :latest_trade, :transform_with => lambda {|v| Time.parse(v) }
+    property :latest_trade, :transform_with => lambda {|v| Time.parse(v) rescue v }
     property :btc_value, :from => :price, :with => lambda {|v| BigDecimal.new(v) }
     property :btc_value_24h_ago, :from => :price_before_24h, :with => lambda {|v| BigDecimal.new(v) }
     property :btc_volume, :from => :volume_btc, :with => lambda {|v| v.to_f }

@@ -52,9 +52,9 @@ describe "CryptoCoinCharts" do
     coins[0].should respond_to(:volume_second)
   end
   
-  it "does not allow invalid currency pairs" do
-    expect { CryptoCoinCharts.coin_info(:bob_kathy) }.to raise_error(ArgumentError)
-    expect { CryptoCoinCharts.coins_info(:bob_kathy, :dog_cat) }.to raise_error(ArgumentError)
-  end
+  #it "does not allow invalid currency pairs" do
+  #  #expect { CryptoCoinCharts.coin_info(:bob_kathy) }.to raise_error(ArgumentError)
+  #  #expect { CryptoCoinCharts.coins_info(:bob_kathy, :dog_cat) }.to raise_error(ArgumentError)
+  #end
   
 end
