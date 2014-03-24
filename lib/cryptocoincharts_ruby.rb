@@ -61,7 +61,11 @@ module CryptoCoinCharts
     def coins_info(*pairs)
       pairs.map! {|p| p.to_sym }
       pairs.each do |pair|
-        raise ArgumentError, "You must supply only valid coin pairs!" if !VALID_PAIRS.include?(pair)
+        #raise ArgumentError, "You must supply only valid coin pairs!" if !VALID_PAIRS.include?(pair)
+        if !VALID_PAIRS.include?(pair)
+          puts "WARNING: #{pair} is not listed as a valid coin pair and will be ignored!" 
+          pairs.delete(pair)
+        end
       end
       coins = JSON.parse(Mechanize.new.post("#{API_URL}/tradingPairs", {
         :pairs => pairs.join(',')
