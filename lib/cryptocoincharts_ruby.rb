@@ -6,7 +6,7 @@ require 'bigdecimal'
 module CryptoCoinCharts
   class << self
     
-    VERSION = '0.0.15'
+    VERSION = '0.0.16'
     
     API_URL = 'http://www.cryptocoincharts.info/v2/api'
     VALID_PAIRS = [
